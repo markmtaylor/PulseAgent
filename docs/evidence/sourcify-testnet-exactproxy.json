@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-11-01T16:40:12.029828+00:00",
+  "url": "https://sourcify.dev/server/v2/contract/943/0x402085c248EeA27D92E8b30b2C58ed07f9E20001?fields=all",
+  "httpStatus": "400",
+  "response": {
+    "customCode": "unsupported_chain",
+    "message": "Chain 943 not found",
+    "errorId": "9ae024f9-e975-4c20-afea-f7a778562b37"
+  }
+}

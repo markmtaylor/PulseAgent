@@ -1,0 +1,127 @@
+{
+  "observedAt": "2026-11-01T16:40:48.962125+00:00",
+  "method": "Compare live PulseChain v4 runtime bytes at pinned finalized block to Sourcify-verified Ethereum reference runtime. This is bytecode equivalence evidence, not direct Sourcify support for chain 943 and not behavioral/state validation.",
+  "results": [
+    {
+      "contract": "permit2",
+      "referenceUrl": "https://sourcify.dev/server/v2/contract/1/0x000000000022D473030F116dDEE9F6B43aC78BA3?fields=all",
+      "referenceChain": 1,
+      "referenceAddress": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+      "referenceMatch": "match",
+      "verifiedAt": "2024-08-08T11:26:06Z",
+      "compilation": {
+        "language": "Solidity",
+        "compiler": "solc",
+        "compilerVersion": "0.8.17+commit.8df45f5f",
+        "compilerSettings": {
+          "viaIR": true,
+          "metadata": {
+            "bytecodeHash": "none"
+          },
+          "libraries": {},
+          "optimizer": {
+            "runs": 1000000,
+            "enabled": true
+          },
+          "evmVersion": "london",
+          "remappings": [
+            ":ds-test/=lib/forge-std/lib/ds-test/src/",
+            ":forge-gas-snapshot/=lib/forge-gas-snapshot/src/",
+            ":forge-std/=lib/forge-std/src/",
+            ":openzeppelin-contracts/=lib/openzeppelin-contracts/",
+            ":solmate/=lib/solmate/"
+          ]
+        },
+        "name": "Permit2",
+        "fullyQualifiedName": "src/Permit2.sol:Permit2"
+      },
+      "sourceFiles": [
+        "src/EIP712.sol",
+        "src/Permit2.sol",
+        "src/PermitErrors.sol",
+        "src/AllowanceTransfer.sol",
+        "src/SignatureTransfer.sol",
+        "src/interfaces/IEIP712.sol",
+        "src/interfaces/IERC1271.sol",
+        "src/libraries/Allowance.sol",
+        "src/libraries/PermitHash.sol",
+        "lib/solmate/src/tokens/ERC20.sol",
+        "src/interfaces/IAllowanceTransfer.sol",
+        "src/interfaces/ISignatureTransfer.sol",
+        "src/libraries/SignatureVerification.sol",
+        "lib/solmate/src/utils/SafeTransferLib.sol",
+        "solmate/src/tokens/ERC20.sol",
+        "solmate/src/utils/SafeTransferLib.sol",
+        "src/pkgs/permit2/lib/solmate/src/tokens/ERC20.sol",
+        "src/pkgs/permit2/lib/solmate/src/utils/SafeTransferLib.sol",
+        "src/pkgs/permit2/src/AllowanceTransfer.sol",
+        "src/pkgs/permit2/src/EIP712.sol",
+        "src/pkgs/permit2/src/Permit2.sol",
+        "src/pkgs/permit2/src/PermitErrors.sol",
+        "src/pkgs/permit2/src/SignatureTransfer.sol",
+        "src/pkgs/permit2/src/interfaces/IAllowanceTransfer.sol",
+        "src/pkgs/permit2/src/interfaces/IEIP712.sol",
+        "src/pkgs/permit2/src/interfaces/IERC1271.sol",
+        "src/pkgs/permit2/src/interfaces/ISignatureTransfer.sol",
+        "src/pkgs/permit2/src/libraries/Allowance.sol",
+        "src/pkgs/permit2/src/libraries/PermitHash.sol",
+        "src/pkgs/permit2/src/libraries/SignatureVerification.sol"
+      ],
+      "testnetRuntimeEqualsReference": true,
+      "testnetRuntimeSha256": "62f01f46295c143ebea4d1cf12be2085d8b93d53f86d95afba4f016ee2d694ba",
+      "referenceRuntimeSha256": "62f01f46295c143ebea4d1cf12be2085d8b93d53f86d95afba4f016ee2d694ba"
+    },
+    {
+      "contract": "exactproxy",
+      "referenceUrl": "https://sourcify.dev/server/v2/contract/1/0x402085c248EeA27D92E8b30b2C58ed07f9E20001?fields=all",
+      "referenceChain": 1,
+      "referenceAddress": "0x402085c248EeA27D92E8b30b2C58ed07f9E20001",
+      "referenceMatch": "match",
+      "verifiedAt": "2026-03-31T21:56:35Z",
+      "compilation": {
+        "language": "Solidity",
+        "compiler": "solc",
+        "compilerVersion": "0.8.28+commit.7893614a",
+        "compilerSettings": {
+          "viaIR": false,
+          "metadata": {
+            "appendCBOR": true,
+            "bytecodeHash": "ipfs",
+            "useLiteralContent": false
+          },
+          "optimizer": {
+            "runs": 200,
+            "enabled": true
+          },
+          "evmVersion": "cancun",
+          "remappings": [
+            "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+            "forge-std/=lib/forge-std/src/",
+            "permit2/=lib/permit2/src/",
+            "account-abstraction/=lib/account-abstraction/contracts/",
+            "ds-test/=lib/permit2/lib/forge-std/lib/ds-test/src/",
+            "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+            "forge-gas-snapshot/=lib/permit2/lib/forge-gas-snapshot/src/",
+            "halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/",
+            "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+            "solmate/=lib/permit2/lib/solmate/"
+          ]
+        },
+        "name": "x402ExactPermit2Proxy",
+        "fullyQualifiedName": "src/x402ExactPermit2Proxy.sol:x402ExactPermit2Proxy"
+      },
+      "sourceFiles": [
+        "src/x402ExactPermit2Proxy.sol",
+        "src/x402BasePermit2Proxy.sol",
+        "src/interfaces/ISignatureTransfer.sol",
+        "lib/openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Permit.sol",
+        "lib/openzeppelin-contracts/contracts/utils/StorageSlot.sol"
+      ],
+      "testnetRuntimeEqualsReference": true,
+      "testnetRuntimeSha256": "bcf0d9a12e9ac8060e1a76ef2bbc0895273c3f9946057376c60cf2fe565cc0f0",
+      "referenceRuntimeSha256": "bcf0d9a12e9ac8060e1a76ef2bbc0895273c3f9946057376c60cf2fe565cc0f0",
+      "proxySourceEqualsInspectedUpstream": true
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "repo": "x402-foundation/x402",
+    "branch": "main",
+    "sha": "f3cb4bb79a708bf5669f952d09fa404370263c76",
+    "commitDate": "2026-11-01T06:04:27Z",
+    "url": "https://github.com/x402-foundation/x402/commit/f3cb4bb79a708bf5669f952d09fa404370263c76"
+  },
+  {
+    "repo": "erc-8004/erc-8004-contracts",
+    "branch": "master",
+    "sha": "b9e466c250744a7e06b13dff9d3c2844ed64f825",
+    "commitDate": "2026-08-15T16:26:49Z",
+    "url": "https://github.com/erc-8004/erc-8004-contracts/commit/b9e466c250744a7e06b13dff9d3c2844ed64f825"
+  },
+  {
+    "repo": "eth-infinitism/account-abstraction",
+    "branch": "develop",
+    "sha": "1c6b669d0eea734e09a87e095ba15e076151718a",
+    "commitDate": "2025-12-16T22:25:01Z",
+    "url": "https://github.com/eth-infinitism/account-abstraction/commit/1c6b669d0eea734e09a87e095ba15e076151718a"
+  },
+  {
+    "repo": "modelcontextprotocol/typescript-sdk",
+    "branch": "main",
+    "sha": "1e608caeb5130b2ad0fa067c84b26a038c1c6e36",
+    "commitDate": "2026-10-31T10:53:48Z",
+    "url": "https://github.com/modelcontextprotocol/typescript-sdk/commit/1e608caeb5130b2ad0fa067c84b26a038c1c6e36"
+  }
+]

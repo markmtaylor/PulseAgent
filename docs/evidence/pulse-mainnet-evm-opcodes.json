@@ -1,0 +1,90 @@
+{
+  "observedAt": "2026-11-01T16:35:11.464522+00:00",
+  "endpoint": "https://rpc.pulsechain.com",
+  "block": "0x1aa7372",
+  "note": "Read-only eth_call of tiny creation programs; no transactions or deployments. Tests only these opcodes, not full fork equivalence.",
+  "programs": {
+    "legacy_control": "0x60006000f3",
+    "shanghai_push0": "0x5f5ff3",
+    "cancun_mcopy": "0x6000600060005e60006000f3",
+    "cancun_tstore": "0x600060005d60006000f3"
+  },
+  "requests": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "eth_call",
+      "params": [
+        {
+          "data": "0x60006000f3",
+          "gas": "0x186a0"
+        },
+        "0x1aa7372"
+      ]
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "eth_call",
+      "params": [
+        {
+          "data": "0x5f5ff3",
+          "gas": "0x186a0"
+        },
+        "0x1aa7372"
+      ]
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "eth_call",
+      "params": [
+        {
+          "data": "0x6000600060005e60006000f3",
+          "gas": "0x186a0"
+        },
+        "0x1aa7372"
+      ]
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "eth_call",
+      "params": [
+        {
+          "data": "0x600060005d60006000f3",
+          "gas": "0x186a0"
+        },
+        "0x1aa7372"
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": "0x"
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": "0x"
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "error": {
+        "code": -32000,
+        "message": "invalid opcode: MCOPY"
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "error": {
+        "code": -32000,
+        "message": "invalid opcode: TSTORE"
+      }
+    }
+  ]
+}
