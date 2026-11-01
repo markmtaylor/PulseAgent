@@ -21,6 +21,8 @@ Observed 2026-11-01. Claims below distinguish live read results, documentation, 
 
 Testnet contract reads pinned block `0x1898f46`; mainnet `0x1aa7372`. Addresses and complete responses are in `evidence/pulse-*-contracts.json`. No writes were submitted.
 
+At the sample, testnet's latest block was 64 blocks / 660 block-timestamp seconds ahead of finalized; mainnet's gap was 86 / 910. These are one observation, not an SLA. Public-test delivery may need minutes of asynchronous finality reconciliation; an HTTP receipt timeout must not trigger a fresh payment. Authorization expiry limits inclusion, not later confirmation of a transfer that was already included validly.
+
 `evidence/pulse-*-evm-opcodes.json` contains read-only creation-program `eth_call` probes at the same finalized blocks. Legacy RETURN and Shanghai PUSH0 succeeded; Cancun MCOPY and TSTORE returned explicit invalid-opcode errors. This is a test of those instructions, not a claim of full fork equivalence. Set the compiler EVM target explicitly to Shanghai (or older if a dependency requires), avoid transient-storage variants, and run the local chain with equivalent instruction restrictions. Dependencies that require Cancun cannot be assumed compatible.
 
 **Critical follow-up:** Sourcify's API does not support chain 943, but both testnet runtime bytecodes exactly match its verified Ethereum reference bytecodes. The exact proxy reference is Solidity 0.8.28 targeting Cancun; its source matches the inspected upstream proxy. Disassembly found MCOPY at runtime offset 2032 (before metadata at offset 2860). On BOTH PulseChain endpoints, `PERMIT2()` returned the expected address, while `WITNESS_TYPE_STRING()` and an ABI-encoded `settle` simulation (intentionally invalid signature, no funds) failed with `invalid opcode: MCOPY`. Evidence: `contract-runtime-comparison.json`, `sourcify-testnet-*.json`, and `pulse-*-proxy-behavior.json`. This is a concrete incompatibility of these tested paths, not merely a compiler-target inference. **Do not use the canonical exact Permit2 proxy for M1.** Pivot to the standard EIP-3009 path with a reviewed test-only token fixture compiled for Shanghai. A compatible custom proxy deployment/configuration is a possible later alternative, not an implied authorization to deploy or replace upstream.
@@ -43,7 +45,19 @@ Python's local certificate store initially failed verification; the probes succe
 
 `evidence/upstream-revisions.json` records the exact upstream revisions inspected. Coinbase's repository now identifies itself as a development fork and directs upstream work to x402 Foundation. Do not base new work on an assumed historical x402 v1 interface.
 
-## x402
+## Adjacent agent-wallet implementations
+
+[Coinbase AgentKit](https://github.com/coinbase/agentkit) was also reviewed as an existing integration framework. It provides wallet/action-provider abstractions and MCP/framework integrations under Apache-2.0. Its current risk section explicitly leaves human approval, spend ceilings and destination restrictions to application developers. It is a potential future integration target, not a substitute for the signer-side policy boundary required here. No AgentKit performance benchmark or PulseChain execution has been performed.
+
+[CDP's current wallet documentation](https://docs.cdp.coinbase.com/wallets/using-wallets/create-and-manage-wallets) distinguishes broadly EVM-capable EOAs from smart accounts with a narrower network list. This is documentation evidence, not verification that its hosted service, policies, sponsorship or smart accounts work on PulseChain. No CDP account or paid service was provisioned.
+
+[Safe's network documentation](https://docs.safe.global/advanced/smart-account-supported-networks) separately lists smart-account versions, modules and services. The fetched page is paginated; absence from its first page is not evidence of no PulseChain deployment. Safe remains a candidate for the later ERC-4337 assessment, pending exact chain/address/module/bundler behavior checks.
+
+AgentKit's main revision resolved through the GitHub API to `f2f3e8c11a91d56a17979a229a172ba6e61a85c2` (commit date 2026-10-14) at this observation. This is a research reference, not an installed dependency.
+
+The immediate controlled performance baseline remains the upstream x402 flow, which is the component directly comparable to this payment slice. Broader agent frameworks solve different parts of the stack; do not present a local payment timing as a head-to-head benchmark of whole products. See BENCHMARK-SPEC.md.
+
+## x402 protocol details
 
 The [exact EVM specification](https://github.com/x402-foundation/x402/blob/f3cb4bb79a708bf5669f952d09fa404370263c76/specs/schemes/exact/scheme_exact_evm.md) defines EIP-3009, Permit2 and ERC-7710 transfer methods. Prefer the upstream SDK rather than copying wire formats. Generic ERC-20 balances/transfers alone do not implement EIP-3009. Permit2 can serve tokens without native authorization, but needs allowance and the correct proxy/witness. Native PLS is not itself an ERC-20 exact-scheme asset.
 
@@ -75,5 +89,15 @@ The Stripe Directory skill was consulted first for external-provider discovery. 
 2. Choose and verify a valueless test token; provision isolated signer public addresses without model access to keys.
 3. Demonstrate test faucet funding and get a concrete human-approved public-test spending plan.
 4. Implement and test signer isolation, exact x402 interoperability, durable recovery and independent settlement verification.
-5. Confirm Git commit email and GitHub destination/authentication; remote CI is not yet running.
+5. GitHub identity and destination are now verified: [markmtaylor/PulseAgent](https://github.com/markmtaylor/PulseAgent), with GitHub no-reply commit identity configured. Remote CI is not yet implemented or running.
 6. Stablecoin, ERC-8004 registry, ERC-4337 bundler/account factory and escrow are future gates, not claimed support.
+
+Read-only faucet follow-up: the official faucet's observed frontend requests `/api/info` and submits claims to `/api/claim`. The info endpoint returned a nonzero public faucet account and payout `10000000000000000000`; an independent chain-943 balance read found that account funded. Evidence: `evidence/pulse-testnet-faucet-info.json`. No claim was submitted and successful wallet funding is still unverified. A funded faucet does not guarantee a claim succeeds or remove the human approval requirement for public spending.
+
+## Implementation dependency checks
+
+OpenZeppelin 5.6.1 introduced a compatibility problem in the exercised EIP712/SignatureChecker dependency graph: hand-written MCOPY cannot compile for Shanghai. A separate compile probe using the official npm package 5.0.2 successfully compiled ERC20 + EIP712 + ECDSA with solc 0.8.38 and evmVersion `shanghai` (14 imports, zero compiler errors). Pin a compatible upstream release and test the complete fixture rather than replacing the upstream domain implementation. This probe is not an audit of every component in that package.
+
+The initial npm dependency audit reported `tmp` 0.2.6 via solc. [GHSA-7c78-jf6q-g5cm](https://github.com/advisories/GHSA-7c78-jf6q-g5cm) identifies 0.2.7 as patched. Track the final lockfile resolution and rerun compilation and dependency audit; the advisory alone does not establish exploitability in this project's compiler use.
+
+Official GitHub API release/tag checks on 2026-11-01 resolved [actions/checkout v7.0.1](https://github.com/actions/checkout/releases/tag/v7.0.1) to commit `3d3c42e5aac5ba805825da76410c181273ba90b1`, and [actions/setup-node v7.1.0](https://github.com/actions/setup-node/releases/tag/v7.1.0) to `949feb2413d6458794dcd2491c4babbbce0c15c1`. These are available immutable pins for the upcoming CI implementation; no successful workflow run is claimed yet.

@@ -1,0 +1,22 @@
+{
+  "name": "@pulseagent/localchain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "LOCAL ONLY. Disposable in-process EVM and valueless test fixtures. Never used against a public chain.",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@nomicfoundation/edr": "0.25.0",
+    "@openzeppelin/contracts": "5.0.2",
+    "@pulseagent/core": "0.1.0",
+    "solc": "0.8.38",
+    "viem": "2.57.14"
+  }
+}

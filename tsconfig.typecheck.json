@@ -1,0 +1,15 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/sdk" },
+    { "path": "./packages/mcp" },
+    { "path": "./packages/cli" },
+    { "path": "./apps/localchain" },
+    { "path": "./apps/signer" },
+    { "path": "./apps/facilitator" },
+    { "path": "./apps/seller" },
+    { "path": "./examples/two-agents" },
+    { "path": "./tests" }
+  ]
+}

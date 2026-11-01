@@ -1,0 +1,115 @@
+name: ci
+
+# Pull requests and pushes to main. The local demo runs here too: a build that
+# compiles but cannot complete a payment has not demonstrated anything.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Read-only by default, granted per job. Nothing here needs write access.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: build, typecheck, test and local demo
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    env:
+      # Deliberately absent: there is no wallet secret, no RPC credential and no
+      # facilitator key in CI. Every key the tests use is generated at runtime
+      # inside the process that needs it, and the only chain is a disposable
+      # local one. A job that needed a funded account could not run on a fork's
+      # pull request, and a job that holds one should not.
+      CI: "true"
+    steps:
+      # Actions are pinned to commit SHAs, not tags: a tag can be moved to point
+      # at different code after review.
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          # Must match the version the suite is developed and tested against:
+          # the durable store depends on node:sqlite, and the local chain on a
+          # native EDR build.
+          node-version: "24"
+          cache: npm
+
+      - name: Install from the lockfile
+        # `npm ci` fails rather than resolving a new tree, so a dependency cannot
+        # change between review and CI.
+        run: npm ci
+
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Build
+        run: npm run build
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit and integration tests
+        run: npx vitest run --reporter=default
+
+      - name: Local two-agent payment demo
+        # Starts its own disposable chain and services, performs real local
+        # transactions and stops everything in a finally handler. A nonzero exit
+        # fails the job.
+        run: npm run demo:local
+
+      - name: Verify the demo's audit evidence
+        # The manifest the demo wrote is re-verified by the CLI: hash chains,
+        # lifecycle ordering, and the complete linked lifecycle of the payment.
+        run: |
+          manifest="$(find .runtime -name manifest.json -print | sort | tail -n 1)"
+          if [ -z "$manifest" ]; then
+            echo "the demo produced no manifest" >&2
+            exit 1
+          fi
+          npm run audit:verify -- --manifest "$manifest"
+
+      - name: Public-test checklist reports itself incomplete
+        # Expected to exit nonzero: values only an operator can supply are
+        # missing, and a checklist that exited zero would read as a prepared,
+        # approvable plan. The assertion is that it refuses to.
+        run: |
+          if npm run --silent demo:testnet:plan; then
+            echo "the public-test checklist reported itself ready while values are unresolved" >&2
+            exit 1
+          fi
+          echo "checklist reported itself incomplete, as required"
+
+      - name: Public execution must refuse, not fall back to local
+        # The failure is the assertion: a public command that quietly ran against
+        # the local chain would produce evidence about the wrong network.
+        run: |
+          if npm run demo:testnet:execute; then
+            echo "public execution did not refuse" >&2
+            exit 1
+          fi
+          echo "public execution refused, as required"
+
+      - name: Collect evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: demo-evidence
+          # Audit logs and manifests only. Service state, databases and anything
+          # a signer wrote are excluded: runtime state is not an artifact.
+          path: |
+            .runtime/**/evidence/*.jsonl
+            .runtime/**/evidence/manifest.json
+          if-no-files-found: warn
+          retention-days: 7

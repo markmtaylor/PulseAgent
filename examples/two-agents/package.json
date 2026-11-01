@@ -1,0 +1,21 @@
+{
+  "name": "@pulseagent/two-agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Reproducible two-agent local payment demo: buyer pays seller for a deterministic digest.",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pulseagent/core": "0.1.0",
+    "@pulseagent/localchain": "0.1.0",
+    "@pulseagent/sdk": "0.1.0",
+    "viem": "2.57.14"
+  }
+}

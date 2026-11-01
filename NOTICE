@@ -1,0 +1,24 @@
+PulseAgent OS
+Copyright 2026 PulseAgent OS contributors
+
+This product includes software developed by third parties under their own
+licenses. The dependency tree and its licenses are recorded in package-lock.json;
+`npm ls --all` lists what is installed.
+
+Directly reused upstream work, with the role it plays here:
+
+  - x402 Foundation x402 (@x402/core, @x402/evm, @x402/express, @x402/fetch):
+    the x402 v2 protocol, the exact EVM scheme and its EIP-3009 asset transfer
+    method. This project hosts that implementation; it does not reimplement the
+    wire format.
+  - wevm viem: EVM client, ABI and log handling, and the signing implementation
+    used inside the isolated signer process.
+  - Model Context Protocol TypeScript SDK: MCP transport and tool registration.
+  - OpenZeppelin Contracts 5.0.2: ERC-20, EIP-712 and ECDSA bases for the
+    valueless test fixture in contracts/.
+  - Nomic Foundation EDR: the in-process EVM used for the disposable local chain.
+
+The EIP-3009 semantics implemented by contracts/TestTokenEIP3009.sol follow
+EIP-3009 and Circle's reference implementation (circlefin/stablecoin-evm,
+contracts/v2/EIP3009.sol, Apache-2.0). That fixture is a valueless test token.
+It is not a stablecoin, it is not backed, and it is not redeemable.

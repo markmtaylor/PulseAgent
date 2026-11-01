@@ -1,0 +1,22 @@
+{
+  "name": "@pulseagent/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Operator commands: capability probe, unsigned public-test plan, audit verification.",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "pulseagent-audit-verify": "./dist/audit-verify.js",
+    "pulseagent-verify-pulse": "./dist/verify-pulse.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pulseagent/core": "0.1.0"
+  }
+}

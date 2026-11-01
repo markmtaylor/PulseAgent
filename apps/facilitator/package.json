@@ -1,0 +1,24 @@
+{
+  "name": "@pulseagent/facilitator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Self-hosted x402 v2 facilitator for an operator-configured chain.",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "pulseagent-facilitator": "./dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pulseagent/core": "0.1.0",
+    "@x402/core": "2.29.0",
+    "@x402/evm": "2.29.0",
+    "viem": "2.57.14"
+  }
+}

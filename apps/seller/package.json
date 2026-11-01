@@ -1,0 +1,27 @@
+{
+  "name": "@pulseagent/seller",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Seller agent exposing one deterministic SHA-256 digest service behind x402 v2.",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "pulseagent-seller": "./dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pulseagent/core": "0.1.0",
+    "@x402/core": "2.29.0",
+    "@x402/evm": "2.29.0",
+    "@x402/express": "2.29.0",
+    "express": "5.3.0",
+    "viem": "2.57.14",
+    "zod": "4.6.6"
+  }
+}

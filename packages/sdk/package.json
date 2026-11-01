@@ -1,0 +1,23 @@
+{
+  "name": "@pulseagent/sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Buyer-side SDK: quote, pay under policy, verify settlement, read audit.",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pulseagent/core": "0.1.0",
+    "@x402/core": "2.29.0",
+    "@x402/evm": "2.29.0",
+    "@x402/fetch": "2.29.0",
+    "viem": "2.57.14",
+    "zod": "4.6.6"
+  }
+}

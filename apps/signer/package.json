@@ -1,0 +1,23 @@
+{
+  "name": "@pulseagent/signer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "pulseagent-signer": "./dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pulseagent/core": "0.1.0",
+    "viem": "2.57.14",
+    "zod": "4.6.6",
+    "@x402/evm": "2.29.0"
+  }
+}

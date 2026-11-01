@@ -1,0 +1,44 @@
+{
+  "name": "pulseagent-os",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agent payment settlement platform built on the upstream x402 v2 protocol. Milestone 1a: local rehearsal only.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/sdk",
+    "packages/mcp",
+    "packages/cli",
+    "apps/localchain",
+    "apps/signer",
+    "apps/facilitator",
+    "apps/seller",
+    "examples/two-agents"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist apps/*/dist examples/*/dist .runtime artifacts/local *.tsbuildinfo packages/*/*.tsbuildinfo apps/*/*.tsbuildinfo examples/*/*.tsbuildinfo",
+    "typecheck": "tsc --build --force tsconfig.typecheck.json",
+    "test": "npm run build --silent && vitest run",
+    "test:unit": "npm run build --silent && vitest run tests/unit",
+    "test:integration": "npm run build --silent && vitest run tests/integration",
+    "demo:local": "npm run build --silent && node examples/two-agents/dist/demo-local.js",
+    "verify:pulse": "npm run build --silent && node packages/cli/dist/verify-pulse.js",
+    "demo:testnet:plan": "npm run build --silent && node packages/cli/dist/testnet-plan.js",
+    "demo:testnet:execute": "npm run build --silent && node packages/cli/dist/testnet-execute.js",
+    "audit:verify": "npm run build --silent && node packages/cli/dist/audit-verify.js"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vitest": "5.0.5"
+  },
+  "overrides": {
+    "tmp": "0.2.7"
+  }
+}

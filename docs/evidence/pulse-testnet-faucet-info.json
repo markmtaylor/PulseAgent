@@ -1,0 +1,28 @@
+{
+  "observedAt": "2026-11-01T17:08:59.713893+00:00",
+  "mode": "read-only",
+  "source": "https://faucet.v4.testnet.pulsechain.com/api/info",
+  "info": {
+    "account": "0x9a2cC646c04171ee198C527D690b769902E70614",
+    "network": "testnet",
+    "payout": "10000000000000000000"
+  },
+  "rpc": "https://rpc.v4.testnet.pulsechain.com",
+  "balanceRequest": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "eth_getBalance",
+    "params": [
+      "0x9a2cC646c04171ee198C527D690b769902E70614",
+      "latest"
+    ]
+  },
+  "balanceResponse": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": "0x503aa58f1019e1dce73f47"
+  },
+  "claimSubmitted": false,
+  "fundingVerified": false,
+  "notes": "Public faucet configuration and balance only. No wallet claim or funding transaction executed."
+}
